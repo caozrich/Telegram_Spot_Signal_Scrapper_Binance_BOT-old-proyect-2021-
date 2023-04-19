@@ -1,7 +1,7 @@
 # Telegram Signal Scrapper BOT
 This is a project I created in 2021 to extract spot orders from a Telegram channel that provides crypto signals. The bot saves and executes these orders on Binance and sends notifications to a private Telegram channel. Although the bot fulfilled its purpose, after a few months, I realized that the signals from the channel were not very profitable, so I stopped using the bot.
 
-#FEATURES
+# FEATURES
 -Extracts values such as pair, entries, exits, stop loss, and take profit from a signal message like this one:
 
 ![sginals](https://user-images.githubusercontent.com/34092193/232940479-39dc0d74-aee1-4727-bd62-2cbb02f73f10.png)
