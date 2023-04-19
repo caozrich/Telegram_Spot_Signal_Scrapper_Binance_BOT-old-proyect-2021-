@@ -17,12 +17,12 @@ SpotICCCryptoBOT by Richard Libreros
 """
 # Bot especifico para el canal IC Crypto signals VIP
 #---------binance api ----------
-API_KEY = ""
+API_KEY = "" #your api key
 API_SECRET = ""
 clientBinance = Client( API_KEY, API_SECRET, tld= "com")
 
 #--------telegram api
-api_id = 16487976
+api_id = #your api id
 api_hash = ''
 client = TelegramClient('', api_id, api_hash)
 
@@ -43,8 +43,6 @@ async def func(mesg):
     await client.send_message(entity=entity, message=mesg)
 
 
-
-
 def SyncTime():
  gt = clientBinance.get_server_time()
  tt=time.gmtime(int((gt["serverTime"])/1000))
@@ -54,13 +52,11 @@ def SyncTime():
 
 
 async def engine ():
-   
  global PairsUsed    
  orD = open('new_orders.json',) 
  PaiR = open('new_pairs.json',)
  Theorders.update(json.load(orD))
  PairsUsed = list(json.load(PaiR))
-
 
 
  fixGet = Theorders.get
@@ -101,9 +97,7 @@ async def engine ():
                             quitdecimal = cadena[1]
                             quitdecimal2 = quitdecimal[0:stepzise]
                             pricefixed2 = cadena[0] + "." + quitdecimal2
-
-                            
-   
+             
                             ocoQuantity = float(pricefixed2) # SI ESTE METODO DA ERRORES USAR EL ANTIGUO pricefixed
                             if lotSize == "1.00000000": #CUANDO el lotsize de el pair es 1.0 y en la cuenta tenemos ejmp: 7.9 solo dejara vender 7 
                                ocoQuantity = int (ocoQuantity)
@@ -138,8 +132,6 @@ async def engine ():
                                 with open('C:/Users/CaoZRich/Desktop/spotbot/json/new_orders.json', 'w') as fp: #guarda el diccionario como json 
                                     json.dump(Theorders, fp)
 
-
-
                                 PairsUsed.remove(ocoSymbol) #elimina el simbolo de la lista .remove elminar el primer item que encuentre con ese nombre
                                 with open('C:/Users/CaoZRich/Desktop/spotbot/json/new_pairs.json', 'w') as fp: #guarda los pares usados como json
                                     json.dump(PairsUsed, fp)
@@ -166,11 +158,8 @@ async def engine ():
                                    json.dump(PairsUsed, fp)
 
                                 asyncio.ensure_future(func("[" +  u'\U0001F916' + "] " + u'\U000026A0' +  "LA ORDEN BUY LIMIT DEL PAR (" + ocoSymbol + ") HA SIDO CANCELADA"))
-                                await asyncio.sleep(3)                                     
-
-                                   
-
-            
+                                await asyncio.sleep(3)                                                                      
+           
             time.sleep(3)
      
     except Exception as e:
@@ -181,16 +170,8 @@ async def engine ():
         time.sleep(wait_time)
  
 
-
-
-  
-
 _thread = threading.Thread(target=asyncio.run, args=(engine(),))
 _thread.start()
-
-
-
-
 
 
 def search(Tlist, confirmation):
@@ -228,13 +209,11 @@ async def evento (text): #esta funcion verifica que el mesaje sea una orden y sa
         
 
         #-----------
-
         take = text.find("Take")
         pos1c = text.find(")",take)
         pos2c = text.find("-",pos1c)
 
         takeF = float(text[pos1c+1:pos2c])       
-
         #-----------
 
         stop = text.find("Stop")
@@ -242,16 +221,12 @@ async def evento (text): #esta funcion verifica que el mesaje sea una orden y sa
         pos2d = text.find("-",pos1d)
 
         stopF = float(text[pos1d+1:pos2d])  
-
-
         print("Preparing order...")
         print("Entry price: " + str(entryF))    
         print("Take Profit: " + str(takeF))
         print("StopLoss: " +  str(stopF))
 
         await sentOrder(PairF,entryF,takeF,stopF)
-
-
 
     elif text[0] == u'\U0001F6A8':
 
@@ -293,10 +268,6 @@ async def evento (text): #esta funcion verifica que el mesaje sea una orden y sa
                 quitdecimal = cadena[1]
                 quitdecimal2 = quitdecimal[0:lenstr]
                 pricefixed2 = cadena[0] + "." + quitdecimal2
-
-
-   
-
             print(pricefixed2)
 
             order = clientBinance.order_market_sell(
@@ -352,11 +323,6 @@ async def sentOrder(PairF,entryF,takeF,stopF): #organiza los valores y los envia
 
         #-------------FIX/STEP_SIZE DE 1.0------------(CUANDO EL STEPSIZE ES DE 1.0)
 
-        
-  
-
-
-
         print("se enviara una orden de compra limite de " + str(cantidad) + " " + PairF + " por: $" + str(cantidadUSD) + "USDT al precio de: " + str(entryF) ) #cantidad del token a comprar
         print("precio actual: $" + str(symbolPrice)) #precio actual
   
@@ -374,6 +340,7 @@ async def sentOrder(PairF,entryF,takeF,stopF): #organiza los valores y los envia
         await func("[" +  u'\U0001F916' + "] " + u'\U00002714' +  " ORDEN LIMIT REALIZADA CON EXITO: \n\nAsset: " + PairF + "\nEntry: " + str(entryF) + "\nCurrentPrice: " +str(symbolPrice)) #str(symbolPrice)4
 
         #------------GUARDAR DATOS DE LA ORDEN-------------
+        
         global PairsUsed 
         global Theorders
 
@@ -383,27 +350,16 @@ async def sentOrder(PairF,entryF,takeF,stopF): #organiza los valores y los envia
             json.dump(Theorders, fp)
         #orD = open('json/new_orders.json',) 
         #Theorders = json.load(orD)
-        
-
 
         if search(PairsUsed, PairF): #si el par no existe entro de la lista lo agrega
             pass
         else:
             PairsUsed.append(PairF)
-
-
         with open('new_pairs.json', 'w') as fp: #guarda los pares usados como json
             json.dump(PairsUsed, fp)
-
-
     else:
         print(" ")
         print("ya existe una orden con el par: " + PairF)
-
-
-
-
-
 
 
 @client.on(events.NewMessage(chats=-1001440312345)) #1001440312345 --> iD of IC crypto chanel 
