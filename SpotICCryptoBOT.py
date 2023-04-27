@@ -21,7 +21,7 @@ API_KEY = "" #your api key
 API_SECRET = ""
 clientBinance = Client( API_KEY, API_SECRET, tld= "com")
 
-#--------telegram api
+#--------telegram api----------
 api_id = #your api id
 api_hash = ''
 client = TelegramClient('', api_id, api_hash)
@@ -39,11 +39,13 @@ for message in client.get_messages(channel_id, limit=1): #carga todo el historia
 
 
 async def func(mesg):
-    entity = await client.get_entity(-1001433974492)
-    await client.send_message(entity=entity, message=mesg)
+ """envia notificaciones por medio de telethon"""
+ entity = await client.get_entity(-1001433974492) #ID del canal
+ await client.send_message(entity=entity, message=mesg)
 
 
 def SyncTime():
+  """Sincroniza la hora del sistema operativo para evitar un error de desincronización con la API de binance"""
  gt = clientBinance.get_server_time()
  tt=time.gmtime(int((gt["serverTime"])/1000))
  win32api.SetSystemTime(tt[0],tt[1],0,tt[2],tt[3],tt[4],tt[5],0)   
@@ -53,7 +55,7 @@ def SyncTime():
 
 async def engine ():
  global PairsUsed    
- orD = open('new_orders.json',) 
+ orD = open('new_orders.json',)  #carga las ordenes/pared guardadas
  PaiR = open('new_pairs.json',)
  Theorders.update(json.load(orD))
  PairsUsed = list(json.load(PaiR))
@@ -283,7 +285,7 @@ async def evento (text): #esta funcion verifica que el mesaje sea una orden y sa
 
 
 async def sentOrder(PairF,entryF,takeF,stopF): #organiza los valores y los envia como una orden de compra
-
+    """envia orden de compra"""
     symbolPrice = 0
     orders = clientBinance.get_open_orders(symbol=PairF) 
     
